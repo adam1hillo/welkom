@@ -1,6 +1,7 @@
 package be.vdab.welkom;
 
 import be.vdab.welkom.landen.LandRepository;
+import be.vdab.welkom.talen.TaalRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -8,9 +9,11 @@ import org.springframework.stereotype.Component;
 public class MyRunner implements CommandLineRunner {
 
     private final LandRepository landRepository;
+    private final TaalRepository taalRepository;
 
-    public MyRunner(LandRepository landRepository) {
+    public MyRunner(LandRepository landRepository, TaalRepository taalRepository) {
         this.landRepository = landRepository;
+        this.taalRepository = taalRepository;
     }
 
     @Override
@@ -18,6 +21,9 @@ public class MyRunner implements CommandLineRunner {
         try {
             landRepository.findAll()
                     .forEach(land -> System.out.println(land.getNaam()));
+            System.out.println();
+            taalRepository.findAll()
+                    .forEach(taal -> System.out.println(taal.getNaam()));
         } catch (IllegalArgumentException ex) {
             ex.printStackTrace(System.err);
         }
