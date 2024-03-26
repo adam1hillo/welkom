@@ -1,6 +1,7 @@
 package be.vdab.welkom.talen;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -11,9 +12,16 @@ import java.util.List;
 @Component
 @Qualifier("CSV")
 public class CsvTaalRepository implements TaalRepository {
+
+    private final String pad;
+
+    public CsvTaalRepository(@Value("${talenCsvPad}") String pad) {
+        this.pad = pad;
+    }
+
     @Override
     public List<Taal> findAll() {
-        try (var stream = Files.lines(Path.of("/data/talen.csv"))) {
+        try (var stream = Files.lines(Path.of(pad))) {
             return stream
                     .map(regel -> regel.split(","))
                     .map(regelOnderdelen ->

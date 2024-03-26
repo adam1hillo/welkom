@@ -1,6 +1,7 @@
 package be.vdab.welkom.talen;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +16,16 @@ import java.util.List;
 @Qualifier("XML")
 public class XmlTaalRepository implements TaalRepository{
     private final XMLInputFactory factory = XMLInputFactory.newInstance();
+    private final String pad;
+
+    public XmlTaalRepository(@Value("${talenXmlPad}") String pad) {
+        this.pad = pad;
+    }
+
     @Override
     public List<Taal> findAll() {
         List<Taal> talen = new ArrayList<>();
-        try (var bufferedReader = Files.newBufferedReader(Path.of("/data/talen.xml"))) {
+        try (var bufferedReader = Files.newBufferedReader(Path.of(pad))) {
             var reader = factory.createXMLStreamReader(bufferedReader);
             while (reader.hasNext()) {
                 reader.next();

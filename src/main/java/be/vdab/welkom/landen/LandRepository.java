@@ -1,5 +1,6 @@
 package be.vdab.welkom.landen;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,8 +11,14 @@ import java.util.List;
 @Component
 public class LandRepository {
 
+    private final String pad;
+
+    public LandRepository(@Value("${landenCsvPad}") String pad) {
+        this.pad = pad;
+    }
+
     public List<Land> findAll() {
-        try (var stream = Files.lines(Path.of("/data/landen.csv"))) {
+        try (var stream = Files.lines(Path.of(pad))) {
             return stream
                     .map(regel -> regel.split(","))
                     .map(regelOnderdelen ->
