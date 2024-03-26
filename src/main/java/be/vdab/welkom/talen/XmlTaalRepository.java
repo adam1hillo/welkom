@@ -2,7 +2,6 @@ package be.vdab.welkom.talen;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import javax.xml.stream.XMLInputFactory;
